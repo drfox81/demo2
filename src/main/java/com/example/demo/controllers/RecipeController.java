@@ -15,7 +15,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping("/recipe")
+    @PostMapping(value = "/recipe")
     public ResponseEntity<Recipe> addRec(@RequestBody Recipe recipe) {
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(recipe);
