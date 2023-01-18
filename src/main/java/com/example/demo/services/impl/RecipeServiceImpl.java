@@ -12,10 +12,7 @@ import java.util.Map;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    private static int couner;
-
-    private static Map<String, Recipe> recipeMap = new LinkedHashMap<>();
-
+    private static final Map<String, Recipe> recipeMap = new LinkedHashMap<>();
 
     @Override
     public void addRecipe(Recipe recipe) {
