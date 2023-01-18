@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/ingr")
-public class IngridientsController {
+public class IngredientsController {
 
     private final IngredientService ingredientService;
 
-    public IngridientsController(IngredientService ingredientService) {
+    public IngredientsController(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
     }
 
@@ -28,7 +28,7 @@ public class IngridientsController {
     @PostMapping("/add")
     public ResponseEntity<String> addIngr(@RequestBody Ingredients ingredients) {
         ingredientService.addIngredient(ingredients);
-        return ResponseEntity.ok(ingredients.getNameIngredients());
+        return ResponseEntity.ok(ingredients.getNameIngredients()+"-продукт добавлен");
     }
 
 }
