@@ -1,14 +1,11 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.model.Ingredients;
 import com.example.demo.model.Recipe;
 import com.example.demo.services.RecipeService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -23,35 +20,50 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe getRecipe(String recipe) {
-        return recipeMap.getOrDefault(recipe,null);
+        return recipeMap.getOrDefault(recipe, null);
     }
 
     @Override
     public Recipe editRecipe(String recipeName, Recipe recipeNew) {
         if (recipeMap.containsKey(recipeName)) {
-            recipeMap.put(recipeName,recipeNew);
+            recipeMap.put(recipeName, recipeNew);
         } else {
-            recipeMap.put(recipeName,recipeNew);
+            recipeMap.put(recipeName, recipeNew);
         }
         return recipeMap.get(recipeName);
     }
 
     @Override
     public String getAllRecipe() {
-        List<String> list=new ArrayList<>();
+        List<String> list = new ArrayList<>();
         for (Recipe recipe : recipeMap.values()) {
             list.add(recipe.getNameRecipe());
         }
         return list.toString();
     }
 
+
     @Override
-    public boolean deleteRecipe(@PathVariable String recipeName){
+    public boolean deleteRecipe(String recipeName) {
         if (recipeMap.containsKey(recipeName)) {
             recipeMap.remove(recipeName);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Recipe findRecipe(Ingredients... ingredients) {
+        List<Ingredients> list = new ArrayList<>(Arrays.asList(ingredients));
+        Set<Recipe> listFind=new HashSet<>();
+        for (Ingredients ingr:list) {
+            for (Recipe recipe : recipeMap.values()) {
+                if (recipe.getIngredients().contains(ingr)) {
+                    listFind.add(recipe);
+                }
+            }
+        }
+        return (Recipe) listFind;
     }
 
 }
