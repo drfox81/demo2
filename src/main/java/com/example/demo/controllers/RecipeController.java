@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.model.Ingredients;
 import com.example.demo.model.Recipe;
 import com.example.demo.services.IngredientService;
 import com.example.demo.services.RecipeService;
@@ -28,17 +29,19 @@ public class RecipeController {
     }
 
     @GetMapping("/get/{recipeName}")
-    public ResponseEntity<Recipe> getRec(@PathVariable String recipeName) {
+    public ResponseEntity<?> getRec(@PathVariable String recipeName) {
         Recipe recipe = recipeService.getRecipe(recipeName);
         if (recipe == null) {
             ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(recipe);
+        return ResponseEntity.ok(recipe.toString());
     }
+
+
 
     @PutMapping("/{recipeName}")
     public ResponseEntity<Recipe> editRecipe(@PathVariable String recipeName, @PathVariable Recipe newRecipe) {
-        Recipe recipe = recipeService.editRecipe(recipeName,newRecipe);
+        Recipe recipe = recipeService.editRecipe(recipeName, newRecipe);
         if (recipe != null) {
             return ResponseEntity.ok(recipe);
         }
@@ -46,7 +49,7 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{recipeName}")
-    public ResponseEntity<?> deleteRecipe(@PathVariable String recipeName){
+    public ResponseEntity<?> deleteRecipe(@PathVariable String recipeName) {
         if (recipeService.deleteRecipe(recipeName)) {
             ResponseEntity.ok().build();
         }
@@ -54,7 +57,15 @@ public class RecipeController {
     }
 
     @GetMapping("/get/all")
-    public ResponseEntity<?> getAllRecipe(){
+    public ResponseEntity<?> getAllRecipe() {
         return ResponseEntity.ok(recipeService.getAllRecipe());
+    }
+
+    @PostMapping("/get/ingredients")
+    public ResponseEntity<Recipe> findRecipeAnyIngr(@RequestBody String... ingredients) {
+        if (ingredients != null) {
+            return ResponseEntity.ok(recipeService.findRecipe(ingredients));
+        }
+        return null;
     }
 }

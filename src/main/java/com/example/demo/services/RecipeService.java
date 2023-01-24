@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.model.Ingredients;
 import com.example.demo.model.Recipe;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -13,4 +14,11 @@ public interface RecipeService {
     String getAllRecipe();
 
     boolean deleteRecipe(@PathVariable String recipeName);
+
+    Recipe findRecipe(Ingredients... ingredients);
+
+
+    //Recipe findRecipe(Ingredients... ingredients);
+
+    //Recipe findRecipe(String... ingredients);
 }

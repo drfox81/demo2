@@ -10,4 +10,5 @@ public class Ingredients {
     private int quantityIngredients;
     private String measureUnit;
 
+
 }
