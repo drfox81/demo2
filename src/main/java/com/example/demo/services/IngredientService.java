@@ -8,4 +8,9 @@ public interface IngredientService {
 
     Ingredients getIngredient(int id);
 
+    String getAllIngredients();
+
+    Ingredients editIngredient(int id, Ingredients newIngredients);
+
+    boolean deleteIngredient(int id);
 }
