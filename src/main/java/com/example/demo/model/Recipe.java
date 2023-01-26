@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Recipe {
-    private String nameRecipre;
+    private String nameRecipe;
     private int cookingTime;
     private List<Ingredients> ingredients = new ArrayList<>();
     private List<String> step = new ArrayList<>();

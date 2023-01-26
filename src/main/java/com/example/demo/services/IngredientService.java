@@ -4,7 +4,7 @@ import com.example.demo.model.Ingredients;
 
 public interface IngredientService {
 
-    void addIngredient(Ingredients ingredient);
+    int addIngredient(Ingredients ingredient);
 
     Ingredients getIngredient(int id);
 

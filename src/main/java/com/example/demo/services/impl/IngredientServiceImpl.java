@@ -19,8 +19,11 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void addIngredient(Ingredients ingredient) {
+    public int addIngredient(Ingredients ingredient) {
+        int number=idIngredient;
         ingredientMap.put(idIngredient++, ingredient);
+
+        return number;
     }
 
     @Override
