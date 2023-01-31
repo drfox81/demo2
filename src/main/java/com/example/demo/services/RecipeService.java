@@ -17,8 +17,4 @@ public interface RecipeService {
 
     Recipe findRecipe(Ingredients ingredients);
 
-
-    //Recipe findRecipe(Ingredients... ingredients);
-
-    //Recipe findRecipe(String... ingredients);
 }
