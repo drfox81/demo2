@@ -46,13 +46,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe editRecipe(String recipeName, Recipe recipeNew) {
-        if (recipeMap.containsKey(recipeName)) {
-            recipeMap.put(recipeName, recipeNew);
-            saveToFile();
-        } else {
-            recipeMap.put(recipeName, recipeNew);
-            saveToFile();
-        }
+        recipeMap.put(recipeName, recipeNew);
         saveToFile();
         return recipeMap.get(recipeName);
     }
@@ -74,7 +68,6 @@ public class RecipeServiceImpl implements RecipeService {
             saveToFile();
             return true;
         }
-        saveToFile();
         return false;
     }
 
