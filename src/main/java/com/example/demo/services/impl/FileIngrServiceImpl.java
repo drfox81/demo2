@@ -4,6 +4,7 @@ import com.example.demo.services.FileIngrService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,5 +49,10 @@ public class FileIngrServiceImpl implements FileIngrService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public File getDataIngrFile() {
+        return new File(dataFileIngredientPath+ "/" + dataFileIngredientName);
     }
 }
