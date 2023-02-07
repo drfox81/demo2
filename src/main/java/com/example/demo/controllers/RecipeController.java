@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.Ingredients;
 import com.example.demo.model.Recipe;
+import com.example.demo.services.FileRecipeService;
 import com.example.demo.services.IngredientService;
 import com.example.demo.services.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +16,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @RestController
 @RequestMapping("/recipe")
@@ -24,10 +26,12 @@ public class RecipeController {
 
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
+    private final FileRecipeService fileRecipeService;
 
-    public RecipeController(RecipeService recipeService, IngredientService ingredientService) {
+    public RecipeController(RecipeService recipeService, IngredientService ingredientService, FileRecipeService fileRecipeService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
+        this.fileRecipeService = fileRecipeService;
     }
 
 

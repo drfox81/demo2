@@ -1,5 +1,8 @@
 package com.example.demo.services;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,6 +16,8 @@ public interface FileRecipeService {
     boolean cleanFile();
 
     File getDataRecipeFile();
+
+    ResponseEntity<InputStreamResource> uploadAllRecipe();
 
     //Path creatTempFile(String suffix);
 }

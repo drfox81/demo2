@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.services.FileIngrService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +19,32 @@ public class FileIngrServiceImpl implements FileIngrService {
     private String dataFileIngredientName;
 
     @Override
-    public boolean saveToIngrFile(String json){
+    public boolean saveToIngrFile(String json) {
+        if (!getDataIngrFile().exists()) {
+            try {
+                Files.createFile(Path.of(dataFileIngredientPath, dataFileIngredientName));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         try {
-            Files.writeString(Path.of(dataFileIngredientPath,dataFileIngredientName),json);
+            Files.writeString(Path.of(dataFileIngredientPath, dataFileIngredientName), json);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-
     }
 
+
     @Override
-    public String readFromIngrFile(){
+    public String readFromIngrFile() {
         try {
-           return Files.readString(Path.of(dataFileIngredientPath,dataFileIngredientName));
+            if (!Files.exists(Path.of(dataFileIngredientPath, dataFileIngredientName))) {
+                return Files.readString(Path.of(dataFileIngredientPath, dataFileIngredientName));
+            } else {
+                return "Файла нет";
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -40,10 +52,10 @@ public class FileIngrServiceImpl implements FileIngrService {
     }
 
     @Override
-    public boolean cleanFile(){
+    public boolean cleanFile() {
         try {
-            Files.deleteIfExists(Path.of(dataFileIngredientPath,dataFileIngredientName));
-            Files.createFile(Path.of(dataFileIngredientPath,dataFileIngredientName));
+            Files.deleteIfExists(Path.of(dataFileIngredientPath, dataFileIngredientName));
+            Files.createFile(Path.of(dataFileIngredientPath, dataFileIngredientName));
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,6 +65,6 @@ public class FileIngrServiceImpl implements FileIngrService {
 
     @Override
     public File getDataIngrFile() {
-        return new File(dataFileIngredientPath+ "/" + dataFileIngredientName);
+        return new File(dataFileIngredientPath + "/" + dataFileIngredientName);
     }
 }
