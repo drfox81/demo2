@@ -24,9 +24,6 @@ public class IngredientServiceImpl implements IngredientService {
         this.fileIngrService = fileIngrService;
     }
 
-//    private void init() {
-//        readIngrFromFile();
-//    }
 
 
     public static int getIdIngredient() {
