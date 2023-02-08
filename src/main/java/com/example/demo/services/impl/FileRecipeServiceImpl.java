@@ -44,7 +44,7 @@ public class FileRecipeServiceImpl implements FileRecipeService {
     @Override
     public String readFromRecipeFile() {
         try {
-            if (!Files.exists(Path.of(dataFileRecipePath, dataFileRecipeName))) {
+            if (Files.exists(Path.of(dataFileRecipePath, dataFileRecipeName))) {
                 return Files.readString(Path.of(dataFileRecipePath, dataFileRecipeName));
             } else {return "Файла нет";}
         } catch (IOException e) {

@@ -40,7 +40,7 @@ public class FileIngrServiceImpl implements FileIngrService {
     @Override
     public String readFromIngrFile() {
         try {
-            if (!Files.exists(Path.of(dataFileIngredientPath, dataFileIngredientName))) {
+            if (Files.exists(Path.of(dataFileIngredientPath, dataFileIngredientName))) {
                 return Files.readString(Path.of(dataFileIngredientPath, dataFileIngredientName));
             } else {
                 return "Файла нет";

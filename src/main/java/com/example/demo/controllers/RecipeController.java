@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.Ingredients;
 import com.example.demo.model.Recipe;
-import com.example.demo.services.FileRecipeService;
 import com.example.demo.services.IngredientService;
 import com.example.demo.services.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,8 +15,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @RestController
 @RequestMapping("/recipe")
@@ -26,12 +23,10 @@ public class RecipeController {
 
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
-    private final FileRecipeService fileRecipeService;
 
-    public RecipeController(RecipeService recipeService, IngredientService ingredientService, FileRecipeService fileRecipeService) {
+    public RecipeController(RecipeService recipeService, IngredientService ingredientService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
-        this.fileRecipeService = fileRecipeService;
     }
 
 
@@ -92,7 +87,7 @@ public class RecipeController {
                             )
                     })
     })
-    public ResponseEntity<Recipe> editRecipe(@PathVariable String recipeName, @PathVariable Recipe newRecipe) {
+    public ResponseEntity<Recipe> editRecipe(@PathVariable String recipeName, @RequestBody Recipe newRecipe) {
         Recipe recipe = recipeService.editRecipe(recipeName, newRecipe);
         if (recipe != null) {
             return ResponseEntity.ok(recipe);

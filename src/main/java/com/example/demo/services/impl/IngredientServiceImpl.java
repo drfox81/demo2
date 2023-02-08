@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,9 +24,9 @@ public class IngredientServiceImpl implements IngredientService {
         this.fileIngrService = fileIngrService;
     }
 
-    private void init() {
-        readIngrFromFile();
-    }
+//    private void init() {
+//        readIngrFromFile();
+//    }
 
 
     public static int getIdIngredient() {
@@ -54,6 +55,7 @@ public class IngredientServiceImpl implements IngredientService {
         }
 
     }
+
     void readIngrFromFile() {
         String json = fileIngrService.readFromIngrFile();
         try {
