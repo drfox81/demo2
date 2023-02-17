@@ -19,5 +19,7 @@ public interface FileRecipeService {
 
     ResponseEntity<InputStreamResource> uploadAllRecipe();
 
+    Path creatTempFile(String suffix);
+
     //Path creatTempFile(String suffix);
 }

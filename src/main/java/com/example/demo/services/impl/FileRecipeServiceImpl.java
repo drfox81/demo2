@@ -89,13 +89,13 @@ public class FileRecipeServiceImpl implements FileRecipeService {
         return ResponseEntity.noContent().build();
     }
 
-//    @Override
-//    public Path creatTempFile(String suffix) {
-//        try {
-//            return Files.createTempFile(Path.of(dataFileRecipePath), "tempFile", suffix);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    @Override
+    public Path creatTempFile(String suffix) {
+        try {
+            return Files.createTempFile(Path.of(dataFileRecipePath), "tempFile", suffix);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

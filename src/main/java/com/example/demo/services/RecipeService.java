@@ -2,7 +2,11 @@ package com.example.demo.services;
 
 import com.example.demo.model.Ingredients;
 import com.example.demo.model.Recipe;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.io.IOException;
+import java.nio.file.Path;
 
 public interface RecipeService {
 
@@ -17,4 +21,5 @@ public interface RecipeService {
 
     Recipe findRecipe(Ingredients ingredients);
 
+    Path creatAllRecipeTxt() throws IOException;
 }

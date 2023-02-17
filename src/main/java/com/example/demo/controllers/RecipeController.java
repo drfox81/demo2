@@ -12,8 +12,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.Month;
 
 
 @RestController
@@ -146,11 +156,49 @@ public class RecipeController {
                             )
                     })
     })
+
     public ResponseEntity<Recipe> findRecipeAnyIngr(@RequestBody Ingredients ingredients) {
         if (ingredients != null) {
             return ResponseEntity.ok(recipeService.findRecipe(ingredients));
         }
         return null;
+    }
+
+    @GetMapping("/tempAll")
+    @Operation(summary = "Получить всех рецептов  тхт формате", description = "Распечатать все рецепты")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Готово",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(
+                                            schema = @Schema(implementation = Recipe.class))
+
+                            )
+                    })
+    })
+    public ResponseEntity<?> getTempAllRecipe() {
+        try {
+            Path path = recipeService.creatAllRecipeTxt();
+            if (Files.size(path) == 0) {
+                return ResponseEntity.noContent().build();
+            } else {
+                try {
+                    InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
+                    return ResponseEntity.ok()
+                            .contentLength(Files.size(path))
+                            .contentType(MediaType.TEXT_PLAIN)
+                            .header(HttpHeaders.CONTENT_DISPOSITION,
+                                    "attachment;filename=\"" + path + "-report.txt\"")
+                            .body(resource);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.toString());
+        }
     }
 
 

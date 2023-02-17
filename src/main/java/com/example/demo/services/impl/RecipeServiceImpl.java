@@ -8,9 +8,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 @Service
@@ -28,8 +35,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     @PostConstruct
     private void init() {
-        readRecipeFromFile();
-        ingredientService.readIngrFromFile();
+        try {
+            readRecipeFromFile();
+            ingredientService.readIngrFromFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -57,7 +69,7 @@ public class RecipeServiceImpl implements RecipeService {
         for (Recipe recipe : recipeMap.values()) {
             list.add(recipe);
         }
-        return list+"/n";
+        return list + "/n";
     }
 
 
@@ -105,5 +117,35 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
+    @Override
+    public Path creatAllRecipeTxt() throws IOException {
+        Path path = fileRecipeService.creatTempFile("AllRecipe");
+        File file = fileRecipeService.getDataRecipeFile();
+        for (Recipe value : recipeMap.values()) {
+            try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+                writer.append(value.getNameRecipe() + "\nВремя приготовления -" + value.getCookingTime() + " минут \n\n");
+                writer.append("Ингредиенты:"+ "\n");
+                for (int i = 0; i < value.getIngredients().size(); i++) {
+                    writer.append(value.getIngredients().get(i).getNameIngredients() + " " +
+                            value.getIngredients().get(i).getQuantityIngredients() +
+                            " " + value.getIngredients().get(i).getMeasureUnit() + "\n");
+                }
+                writer.append("\nПорядок приготовления:"+ "\n");
+                for (int i = 0; i < value.getStep().size(); i++) {
+                    writer.append(value.getStep().get(i)+ "\n");
+                }
+                writer.append("Приятного аппетита!!!" +"\n"+line()+ "\n");
+
+            }
+
+        }
+        return path;
+    }
+
+    private String line(){
+        return "----------------------------------------------------";
+    }
 
 }
+
+
