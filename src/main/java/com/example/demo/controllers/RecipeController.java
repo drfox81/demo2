@@ -23,7 +23,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.Month;
 
 
 @RestController
@@ -55,9 +54,9 @@ public class RecipeController {
     })
     public ResponseEntity<Recipe> addRec(@RequestBody Recipe recipe) {
         recipeService.addRecipe(recipe);
-        for (int i = 0; i < recipe.getIngredients().size(); i++) {
-            ingredientService.addIngredient(recipe.getIngredients().get(i));
-        }
+//        for (int i = 0; i < recipe.getIngredients().size(); i++) {
+//            ingredientService.addIngredient(recipe.getIngredients().get(i));
+//        }
         return ResponseEntity.ok(recipe);
     }
 
@@ -159,9 +158,13 @@ public class RecipeController {
 
     public ResponseEntity<Recipe> findRecipeAnyIngr(@RequestBody Ingredients ingredients) {
         if (ingredients != null) {
-            return ResponseEntity.ok(recipeService.findRecipe(ingredients));
+            Recipe recipe=recipeService.findRecipe(ingredients);
+            if ( recipe!= null) {
+                return ResponseEntity.ok(recipe);
+            }
         }
-        return null;
+        return ResponseEntity.notFound().build();
+        //return null;
     }
 
     @GetMapping("/tempAll")

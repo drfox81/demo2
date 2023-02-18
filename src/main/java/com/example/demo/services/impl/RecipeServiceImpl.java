@@ -46,6 +46,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void addRecipe(Recipe recipe) {
+        for (int i = 0; i < recipe.getIngredients().size(); i++) {
+            ingredientService.addIngredient(recipe.getIngredients().get(i));
+        }
         recipeMap.put(recipe.getNameRecipe(), recipe);
         saveToFile();
         ingredientService.saveToIngrFile();
@@ -64,12 +67,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public String getAllRecipe() {
+    public List<Recipe> getAllRecipe() {
         List<Recipe> list = new ArrayList<>();
         for (Recipe recipe : recipeMap.values()) {
             list.add(recipe);
         }
-        return list + "/n";
+        return list;
     }
 
 

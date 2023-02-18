@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 public interface RecipeService {
 
@@ -15,7 +16,7 @@ public interface RecipeService {
 
     Recipe editRecipe(String recipeName, Recipe recipeNew);
 
-    String getAllRecipe();
+    List<Recipe> getAllRecipe();
 
     boolean deleteRecipe(@PathVariable String recipeName);
 
